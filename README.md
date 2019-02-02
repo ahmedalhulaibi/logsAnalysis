@@ -6,7 +6,7 @@ This CLI program `report.py` outputs:
 2. The most viewed authors based on a given number
 3. Days where requests lead to errors based on a given threshold.
 
-# Usage
+# Setup
 
 This program requires 3 arguments.
 
