@@ -1,15 +1,18 @@
+#!/usr/bin/env python3
 # "Database code" for the DB News.
 
 import psycopg2
+import datetime
 
 DBNAME = "news"
 
 
 def get_popular_articles(num_of_articles):
-    """Return most popular articles and number of views."""
-    db = psycopg2.connect(dbname=DBNAME)
-    curs = db.cursor()
-    curs.execute("""select title, logviews.vws
+    try:
+        """Return most popular articles and number of views."""
+        db = psycopg2.connect(dbname=DBNAME)
+        curs = db.cursor()
+        curs.execute("""select title, logviews.vws
                     from articles left join (
                       select substr(l."path",10) as log_slug, count(*) as vws
                       from log l
@@ -17,36 +20,42 @@ def get_popular_articles(num_of_articles):
                     ) as logviews on logviews.log_slug like slug
                     order by vws desc
                     limit %s;""",
-                 (num_of_articles,))
-    articles = curs.fetchall()
-    curs.close()
-    db.close()
-    return articles
+                     (num_of_articles,))
+        articles = curs.fetchall()
+        curs.close()
+        db.close()
+        return articles
+    except Exception as inst:
+        return [("Error", inst)]
 
 
 def get_popular_authors(num_of_authors):
-    """Return most popular authors and number of views."""
-    db = psycopg2.connect(dbname=DBNAME)
-    curs = db.cursor()
-    curs.execute("""select au.name, count(*) as vws
+    try:
+        """Return most popular authors and number of views."""
+        db = psycopg2.connect(dbname=DBNAME)
+        curs = db.cursor()
+        curs.execute("""select au.name, count(*) as vws
                     from authors as au
                     join articles as ar on au.id = ar.author
                     join log as l on substr(l."path",10) like ar.slug
                     group by au.name
                     order by vws desc
                     limit %s;""",
-                 (num_of_authors,))
-    authors = curs.fetchall()
-    curs.close()
-    db.close()
-    return authors
+                     (num_of_authors,))
+        authors = curs.fetchall()
+        curs.close()
+        db.close()
+        return authors
+    except Exception as inst:
+        return [("Error", inst)]
 
 
 def get_errs_day_pct(pct):
-    """Return days where errs exceed given percentage."""
-    db = psycopg2.connect(dbname=DBNAME)
-    curs = db.cursor()
-    curs.execute("""select errs."day" as "day",
+    try:
+        """Return days where errs exceed given percentage."""
+        db = psycopg2.connect(dbname=DBNAME)
+        curs = db.cursor()
+        curs.execute("""select errs."day" as "day",
     cast(errs.err_count as decimal) / cast(l.all_count as decimal) * 100
     as percentage
     from (
@@ -64,8 +73,10 @@ def get_errs_day_pct(pct):
       order by "day"
     ) as l on l."day" = errs."day" and
     cast(errs.err_count as decimal) / cast(l.all_count as decimal) >= %s;""",
-                 (pct,))
-    errs = curs.fetchall()
-    curs.close()
-    db.close()
-    return errs
+                     (pct,))
+        errs = curs.fetchall()
+        curs.close()
+        db.close()
+        return errs
+    except Exception as inst:
+        return [(datetime.datetime.now(), inst)]
