@@ -1,6 +1,6 @@
 # Design
 
-This CLI program `report.py` will outputs:
+This CLI program `report.py` outputs:
 
 1. The most viewed articles based on a given number
 2. The most viewed authors based on a given number
