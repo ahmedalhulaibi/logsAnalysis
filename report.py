@@ -20,7 +20,7 @@ def main(argv):
                           for author, views in get_popular_authors(argv[1]))
     print(authors)
     pct = float(argv[2]) / 100.0
-    print("\n-----Days where HTTP Error Status Codes Exceeded %3.2f%%-----\n" % (pct*100))
+    print("\n-----Days HTTP Error Status Exceeded %3.2f%%-----\n" % (pct*100))
     days = "\r\n".join(ERR_TEMPLATE % (day.strftime("%B %d, %Y"), percentage)
                        for day, percentage in get_errs_day_pct(pct))
     print(days)
@@ -29,6 +29,6 @@ def main(argv):
 
 if __name__ == '__main__':
     if len(sys.argv) < 4:
-      print("Usage: report.py [num articles] [num authors] [percentage errors]")
-      quit()
+        print("Usage: report.py [num articles] [num authors] [%% errors]")
+        quit()
     main(sys.argv[1:])

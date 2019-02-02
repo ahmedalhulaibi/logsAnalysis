@@ -49,7 +49,7 @@ $ python3 report.py 3 4 1
 "Anonymous Contributor" -- 170098 views
 "Markoff Chaney" -- 84557 views
 
------Days where HTTP Error Status Codes Exceeded 1.00%-----
+-----Days HTTP Error Status Exceeded 1.00%-----
 
 July 17, 2016 -- 2.26% errors
 ```
