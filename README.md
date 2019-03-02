@@ -1,12 +1,18 @@
-# Design
+# What is this thing?
 
-This CLI program `report.py` outputs:
+This program will output
 
 1. The most viewed articles based on a given number
 2. The most viewed authors based on a given number
 3. Days where requests lead to errors based on a given threshold.
 
 # Setup
+
+## Database
+
+To build the reporting tool, you'll need to load the site's data into your local postgres database.
+- Database name is expected to be *news*
+- Run SQL to create tables and load database with sample data. Download [here](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip)
 
 This program requires 3 arguments.
 
